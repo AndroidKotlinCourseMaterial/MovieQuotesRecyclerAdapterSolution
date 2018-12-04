@@ -2,10 +2,10 @@ package edu.rosehulman.boutell.moviequotes
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.provider.Settings.ACTION_SETTINGS
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -72,7 +72,13 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_settings -> {
-                startActivity(Intent(ACTION_SETTINGS))
+//                startActivity(Intent(ACTION_SETTINGS))
+                // For others, see https://developer.android.com/reference/android/provider/Settings
+                // TODO: Instead of always starting the general settings, show a dialog
+                // with a list of settings they can open with ACTION_SEARCH_SETTINGS
+                // as the first, one of your choosing for the second, and general
+                // settings as the third and default
+                getWhichSettings()
                 true
             }
             // TODO: Create a menu item that when pressed, launches a dialog
@@ -104,4 +110,19 @@ class MainActivity : AppCompatActivity() {
         builder.setNegativeButton(android.R.string.cancel, null)
         builder.create().show()
     }
+
+    private fun getWhichSettings() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.dialog_which_settings_title))
+        builder.setItems(R.array.settings_types) {_, index ->
+            var actionConstant = when (index) {
+                0 -> Settings.ACTION_SOUND_SETTINGS
+                1 -> Settings.ACTION_SEARCH_SETTINGS
+                else -> ACTION_SETTINGS
+            }
+            startActivity(Intent(actionConstant))
+        }
+        builder.create().show()
+    }
+
 }
