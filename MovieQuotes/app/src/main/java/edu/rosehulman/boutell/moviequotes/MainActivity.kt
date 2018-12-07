@@ -23,8 +23,6 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener {
-//            Log.d(Constants.TAG, "Floating action button pressed")
-//            updateQuote(MovieQuote("I am your father", "The Empire Strikes Back"))
             showAddDialog()
         }
     }
@@ -72,18 +70,9 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_settings -> {
-//                startActivity(Intent(ACTION_SETTINGS))
-                // For others, see https://developer.android.com/reference/android/provider/Settings
-                // TODO: Instead of always starting the general settings, show a dialog
-                // with a list of settings they can open with ACTION_SEARCH_SETTINGS
-                // as the first, one of your choosing for the second, and general
-                // settings as the third and default
                 getWhichSettings()
                 true
             }
-            // TODO: Create a menu item that when pressed, launches a dialog
-            // to confirm the deletion. If they press OK, the quote will return to
-            // the default "Movie", "Quote"
             R.id.action_clear -> {
                 confirmClear()
                 true
@@ -114,6 +103,7 @@ class MainActivity : AppCompatActivity() {
     private fun getWhichSettings() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(getString(R.string.dialog_which_settings_title))
+        // For others, see https://developer.android.com/reference/android/provider/Settings
         builder.setItems(R.array.settings_types) {_, index ->
             var actionConstant = when (index) {
                 0 -> Settings.ACTION_SOUND_SETTINGS
