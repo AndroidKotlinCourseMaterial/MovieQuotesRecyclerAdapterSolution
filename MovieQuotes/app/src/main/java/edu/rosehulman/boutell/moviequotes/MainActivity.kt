@@ -6,6 +6,8 @@ import android.provider.Settings
 import android.provider.Settings.ACTION_SETTINGS
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -16,7 +18,7 @@ import kotlinx.android.synthetic.main.dialog_add_edit_quote.view.*
 
 class MainActivity : AppCompatActivity() {
     var defaultMovieQuote = MovieQuote("Quote", "Movie")
-
+    lateinit var adapter: MovieQuoteAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -25,28 +27,34 @@ class MainActivity : AppCompatActivity() {
         fab.setOnClickListener {
             showAddDialog()
         }
+
+        adapter = MovieQuoteAdapter(this)
+        recycler_view.layoutManager = LinearLayoutManager(this)
+        recycler_view.setHasFixedSize(true)
+        recycler_view.adapter = adapter
     }
 
     private fun showAddDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Add a quote")
         val view = LayoutInflater.from(this).inflate(
-                R.layout.dialog_add_edit_quote, null, false)
+            R.layout.dialog_add_edit_quote, null, false
+        )
         builder.setView(view)
         builder.setIcon(android.R.drawable.ic_input_add)
-        builder.setPositiveButton(android.R.string.ok) {
-            _, _ ->
-                val quote = view.dialog_edit_text_quote.text.toString()
-                val movie = view.dialog_edit_text_movie.text.toString()
-                updateQuote(MovieQuote(quote, movie))
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
+            val quote = view.dialog_edit_text_quote.text.toString()
+            val movie = view.dialog_edit_text_movie.text.toString()
+            adapter.add(MovieQuote(quote, movie))
+            // updateQuote(MovieQuote(quote, movie))
         }
         builder.setNegativeButton(android.R.string.cancel, null)
         builder.show()
     }
 
     private fun updateQuote(movieQuote: MovieQuote) {
-        quote_text_view.text = movieQuote.quote
-        movie_text_view.text = movieQuote.movie
+//        quote_text_view.text = movieQuote.quote
+//        movie_text_view.text = movieQuote.movie
     }
 
 
@@ -83,10 +91,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun changeFontSize(delta: Int) {
         // Increase the font size by delta sp
-        var currentSize = quote_text_view.textSize / resources.displayMetrics.scaledDensity
-        currentSize += delta
-        quote_text_view.textSize = currentSize
-        movie_text_view.textSize = currentSize
+//        var currentSize = quote_text_view.textSize / resources.displayMetrics.scaledDensity
+//        currentSize += delta
+//        quote_text_view.textSize = currentSize
+//        movie_text_view.textSize = currentSize
     }
 
     private fun confirmClear() {
@@ -104,7 +112,7 @@ class MainActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(getString(R.string.dialog_which_settings_title))
         // For others, see https://developer.android.com/reference/android/provider/Settings
-        builder.setItems(R.array.settings_types) {_, index ->
+        builder.setItems(R.array.settings_types) { _, index ->
             var actionConstant = when (index) {
                 0 -> Settings.ACTION_SOUND_SETTINGS
                 1 -> Settings.ACTION_SEARCH_SETTINGS
