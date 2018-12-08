@@ -3,18 +3,13 @@ package edu.rosehulman.boutell.moviequotes
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
-import android.provider.Settings.ACTION_SETTINGS
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.dialog_add_edit_quote.view.*
 
 class MainActivity : AppCompatActivity() {
     var defaultMovieQuote = MovieQuote("Quote", "Movie")
@@ -26,31 +21,14 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener {
             // For testing
-            adapter.add(defaultMovieQuote)
-            // showAddDialog()
+            // adapter.add(MovieQuote("Quote", "Movie"))
+            adapter.showAddEditDialog()
         }
 
         adapter = MovieQuoteAdapter(this)
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.setHasFixedSize(true)
         recycler_view.adapter = adapter
-    }
-
-    private fun showAddDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Add a quote")
-        val view = LayoutInflater.from(this).inflate(
-            R.layout.dialog_add_edit_quote, null, false
-        )
-        builder.setView(view)
-        builder.setIcon(android.R.drawable.ic_input_add)
-        builder.setPositiveButton(android.R.string.ok) { _, _ ->
-            val quote = view.dialog_edit_text_quote.text.toString()
-            val movie = view.dialog_edit_text_movie.text.toString()
-            adapter.add(MovieQuote(quote, movie))
-        }
-        builder.setNegativeButton(android.R.string.cancel, null)
-        builder.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -111,7 +89,7 @@ class MainActivity : AppCompatActivity() {
             var actionConstant = when (index) {
                 0 -> Settings.ACTION_SOUND_SETTINGS
                 1 -> Settings.ACTION_SEARCH_SETTINGS
-                else -> ACTION_SETTINGS
+                else -> Settings.ACTION_SETTINGS
             }
             startActivity(Intent(actionConstant))
         }
