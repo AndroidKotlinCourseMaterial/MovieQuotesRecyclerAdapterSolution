@@ -25,7 +25,9 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener {
-            showAddDialog()
+            // For testing
+            adapter.add(defaultMovieQuote)
+            // showAddDialog()
         }
 
         adapter = MovieQuoteAdapter(this)
@@ -46,17 +48,10 @@ class MainActivity : AppCompatActivity() {
             val quote = view.dialog_edit_text_quote.text.toString()
             val movie = view.dialog_edit_text_movie.text.toString()
             adapter.add(MovieQuote(quote, movie))
-            // updateQuote(MovieQuote(quote, movie))
         }
         builder.setNegativeButton(android.R.string.cancel, null)
         builder.show()
     }
-
-    private fun updateQuote(movieQuote: MovieQuote) {
-//        quote_text_view.text = movieQuote.quote
-//        movie_text_view.text = movieQuote.movie
-    }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -102,7 +97,7 @@ class MainActivity : AppCompatActivity() {
         builder.setTitle(getString(R.string.confirm_delete_title))
         builder.setMessage(getString(R.string.confirm_delete_message))
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
-            updateQuote(defaultMovieQuote)
+            // updateQuote(defaultMovieQuote)
         }
         builder.setNegativeButton(android.R.string.cancel, null)
         builder.create().show()
