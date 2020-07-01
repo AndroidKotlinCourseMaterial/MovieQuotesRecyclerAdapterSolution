@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import androidx.recyclerview.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -30,6 +31,10 @@ class MainActivity : AppCompatActivity() {
             LinearLayoutManager(this)
         recycler_view.setHasFixedSize(true)
         recycler_view.adapter = adapter
+        recycler_view.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.VERTICAL))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
