@@ -1,8 +1,9 @@
 package edu.rosehulman.boutell.moviequotes
 
 import android.content.Context
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.RecyclerView
+import android.system.Os.remove
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -49,10 +50,15 @@ class MovieQuoteAdapter(var context: Context) : RecyclerView.Adapter<MovieQuoteV
 
         }
         builder.setNegativeButton(android.R.string.cancel, null)
+
+        builder.setNeutralButton("Delete") { _,_ ->
+            remove(position)
+        }
+
         builder.show()
     }
 
-    fun add(movieQuote: MovieQuote) {
+    private fun add(movieQuote: MovieQuote) {
         movieQuotes.add(0, movieQuote)
         Log.d(Constants.TAG, "MQ: $movieQuotes")
         notifyItemInserted(0)
@@ -60,10 +66,15 @@ class MovieQuoteAdapter(var context: Context) : RecyclerView.Adapter<MovieQuoteV
         Log.d(Constants.TAG, "Done Adding ")
     }
 
-    fun edit(position: Int, quote: String, movie: String) {
+    private fun edit(position: Int, quote: String, movie: String) {
         movieQuotes[position].quote = quote
         movieQuotes[position].movie = movie
         notifyItemChanged(position)
+    }
+
+    private fun remove(position: Int) {
+        movieQuotes.removeAt(position)
+        notifyItemRemoved(position)
     }
 
     fun selectMovieQuote(position: Int) {

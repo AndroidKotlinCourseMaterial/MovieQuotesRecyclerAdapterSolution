@@ -3,9 +3,9 @@ package edu.rosehulman.boutell.moviequotes
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,7 +26,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         adapter = MovieQuoteAdapter(this)
-        recycler_view.layoutManager = LinearLayoutManager(this)
+        recycler_view.layoutManager =
+            LinearLayoutManager(this)
         recycler_view.setHasFixedSize(true)
         recycler_view.adapter = adapter
     }
